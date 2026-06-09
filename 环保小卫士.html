@@ -1,0 +1,423 @@
+﻿```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>环保小卫士 - 体育作业AI平台</title>
+    <!-- 引入 Tailwind CSS 用于快速美化页面 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden-view { display: none; }
+        
+        /* 圆形进度条样式 */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.3s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-green-50 text-gray-800 font-sans min-h-screen">
+
+    <!-- 顶部导航栏 -->
+    <header class="bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-leaf text-3xl text-green-100"></i>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wider">环保小卫士</h1>
+                    <p class="text-green-100 text-sm mt-1">二年级体育与健康（折返跑）AI作业平台</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="max-w-4xl mx-auto px-4 py-6">
+        
+        <!-- 标签页切换按钮 -->
+        <div class="flex space-x-2 bg-white p-1 rounded-xl shadow-sm mb-6">
+            <button id="tab-guide" onclick="switchTab('guide')" class="tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 bg-green-100 text-green-700 shadow-sm">
+                <i class="fa-regular fa-file-lines text-lg"></i>
+                <span>作业指南</span>
+            </button>
+            <button id="tab-submit" onclick="switchTab('submit')" class="tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-500 hover:bg-gray-50 hover:text-green-600">
+                <i class="fa-solid fa-video text-lg"></i>
+                <span>视频提交</span>
+            </button>
+            <button id="tab-result" class="tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-400 opacity-60 cursor-not-allowed">
+                <i class="fa-solid fa-chart-line text-lg"></i>
+                <span>AI分析报告</span>
+            </button>
+        </div>
+
+        <!-- 内容展示区 -->
+        <div class="bg-white rounded-2xl shadow-sm border border-green-100 overflow-hidden min-h-[400px]">
+            
+            <!-- 1. 作业指南视图 -->
+            <div id="view-guide" class="p-6 md:p-8 fade-in">
+                <div class="flex items-center space-x-3 mb-6 border-b pb-4">
+                    <i class="fa-solid fa-medal text-2xl text-yellow-500"></i>
+                    <h2 class="text-xl font-bold text-gray-800">今日任务：垃圾分类大挑战</h2>
+                </div>
+                <div class="space-y-6">
+                    <section>
+                        <h3 class="font-semibold text-green-700 flex items-center mb-3">
+                            <span class="w-2 h-6 bg-green-500 rounded-full mr-2"></span>
+                            作业内容
+                        </h3>
+                        <ul class="space-y-3 text-gray-600 bg-green-50/50 p-4 rounded-xl">
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2 mt-1"></i>
+                                <span><strong>任务一（体验探究）：</strong> 在家中安全空地上设置两个标志物，相距3-5米。尝试寻找折返速度最快的动作方法。</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fa-solid fa-circle-check text-green-500 mr-2 mt-1"></i>
+                                <span><strong>任务二（环保挑战）：</strong> 结合垃圾分类卡片，进行折返跑接力回收。请家长协助拍摄完整的折返跑动作视频。</span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3 class="font-semibold text-green-700 flex items-center mb-3">
+                            <span class="w-2 h-6 bg-green-500 rounded-full mr-2"></span>
+                            AI动作检测要点
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="border border-green-100 p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition">
+                                <h4 class="font-medium text-gray-800 mb-2">🏅 优秀标准</h4>
+                                <p class="text-sm text-gray-600">能流畅完成折返跑，<strong>降低重心明显，侧身折返迅速</strong>；蹬地有力加速快，动作规范度高。</p>
+                            </div>
+                            <div class="border border-green-100 p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition">
+                                <h4 class="font-medium text-gray-800 mb-2">👍 良好标准</h4>
+                                <p class="text-sm text-gray-600">积极参与，能顺利完成折返跑。速度较快，但折返瞬间<strong>重心偏高，有轻微减速制动</strong>。</p>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="pt-6 text-center">
+                        <button onclick="switchTab('submit')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 inline-flex items-center">
+                            我已了解，去上传视频
+                            <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 视频提交与上传视图 -->
+            <div id="view-submit" class="hidden-view p-6 md:p-10 flex flex-col items-center justify-center min-h-[400px] fade-in">
+                
+                <!-- 初始上传状态 -->
+                <div id="upload-box" class="w-full max-w-md">
+                    <div class="border-2 border-dashed border-green-300 bg-green-50 rounded-2xl p-8 text-center cursor-pointer hover:bg-green-100 transition duration-200" onclick="document.getElementById('video-upload').click()">
+                        <input type="file" id="video-upload" accept="video/*" class="hidden" onchange="handleFileSelect(event)">
+                        
+                        <div id="upload-placeholder" class="flex flex-col items-center">
+                            <i class="fa-solid fa-cloud-arrow-up text-5xl text-green-400 mb-4"></i>
+                            <h3 class="text-lg font-bold text-gray-700 mb-1">点击上传折返跑视频</h3>
+                            <p class="text-sm text-gray-500">支持 MP4, MOV 格式。请确保拍摄到完整的动作。</p>
+                        </div>
+
+                        <div id="file-info" class="hidden flex flex-col items-center">
+                            <i class="fa-solid fa-circle-play text-5xl text-green-600 mb-3"></i>
+                            <p id="file-name" class="font-medium text-gray-800 break-all"></p>
+                            <p id="file-size" class="text-sm text-gray-500 mt-1"></p>
+                            <p class="mt-4 text-green-600 text-sm font-semibold hover:underline">重新选择文件</p>
+                        </div>
+                    </div>
+
+                    <button id="btn-analyze" disabled onclick="startAnalysis()" class="w-full mt-6 py-3 rounded-full font-bold text-lg transition-all bg-gray-200 text-gray-400 cursor-not-allowed">
+                        提交并开始AI分析
+                    </button>
+                </div>
+
+                <!-- 进度条状态 -->
+                <div id="progress-box" class="hidden-view w-full max-w-md text-center py-10">
+                    <div class="relative w-32 h-32 mx-auto mb-6">
+                        <svg class="w-full h-full" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8" />
+                            <circle id="progress-circle" class="progress-ring__circle" cx="50" cy="50" r="45" fill="none" stroke="#16a34a" stroke-width="8" stroke-dasharray="282.7" stroke-dashoffset="282.7" />
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="progress-text" class="text-2xl font-bold text-green-600">0%</span>
+                        </div>
+                    </div>
+                    <h3 id="progress-title" class="text-xl font-bold text-gray-800 mb-2">正在安全上传视频...</h3>
+                    <p id="progress-desc" class="text-green-600 font-medium">请勿关闭页面</p>
+                </div>
+            </div>
+
+            <!-- 3. AI反馈结果视图 -->
+            <div id="view-result" class="hidden-view p-6 md:p-8 fade-in">
+                <!-- 头部成绩展示 -->
+                <div class="flex flex-col md:flex-row items-center justify-between bg-gray-50 rounded-2xl p-6 border border-gray-100 mb-8">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <div id="result-badge" class="w-20 h-20 rounded-full flex items-center justify-center border-4 mr-6">
+                            <span id="result-grade" class="text-2xl font-black">优秀</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-800">动作诊断报告</h2>
+                            <p class="text-gray-500 mt-1 flex items-center">
+                                <i class="fa-solid fa-chart-line text-sm mr-2"></i>
+                                AI 数智化体能检测完成
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据条 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-sm font-semibold text-gray-600">折返规范度 (重心/侧身)</span>
+                            <span id="score-pose" class="text-lg font-bold text-gray-800">95</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5">
+                            <div id="bar-pose" class="bg-green-500 h-2.5 rounded-full transition-all duration-1000 w-0"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-sm font-semibold text-gray-600">灵敏与速度 (蹬地加速)</span>
+                            <span id="score-speed" class="text-lg font-bold text-gray-800">92</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5">
+                            <div id="bar-speed" class="bg-green-500 h-2.5 rounded-full transition-all duration-1000 w-0"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-sm font-semibold text-gray-600">健康行为 (防冲撞)</span>
+                            <span id="score-safety" class="text-lg font-bold text-gray-800">98</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5">
+                            <div id="bar-safety" class="bg-green-500 h-2.5 rounded-full transition-all duration-1000 w-0"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评语区 -->
+                <div class="bg-white border-l-4 border-green-500 rounded-r-xl shadow-sm p-6 mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fa-solid fa-medal text-green-500 mr-2"></i>
+                        AI 小卫士点评
+                    </h3>
+                    <ul id="comments-list" class="space-y-2 mb-4 text-gray-700">
+                        <!-- 评语由JS动态生成 -->
+                    </ul>
+                    <div class="bg-orange-50 p-4 rounded-lg flex items-start">
+                        <i class="fa-solid fa-circle-exclamation text-orange-500 mr-2 mt-1"></i>
+                        <div>
+                            <span class="font-semibold text-orange-700">提升建议：</span>
+                            <span id="improvement-text" class="text-orange-800 text-sm ml-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="resetApp()" class="inline-flex items-center text-gray-500 hover:text-green-600 font-medium transition">
+                        <i class="fa-solid fa-arrows-rotate mr-2"></i>
+                        重新提交练习
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 核心逻辑脚本 -->
+    <script>
+        // 视图切换逻辑
+        function switchTab(tabName) {
+            // 如果点击的是分析报告，但没数据，则不允许点击
+            if (tabName === 'result' && document.getElementById('tab-result').classList.contains('cursor-not-allowed')) {
+                return;
+            }
+
+            // 更新标签按钮样式
+            const tabs = ['guide', 'submit', 'result'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                if (t === tabName) {
+                    btn.className = "tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 bg-green-100 text-green-700 shadow-sm";
+                } else {
+                    if (!btn.classList.contains('cursor-not-allowed')) {
+                        btn.className = "tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-500 hover:bg-gray-50 hover:text-green-600";
+                    }
+                }
+            });
+
+            // 更新视图显示
+            document.getElementById('view-guide').classList.add('hidden-view');
+            document.getElementById('view-submit').classList.add('hidden-view');
+            document.getElementById('view-result').classList.add('hidden-view');
+            
+            document.getElementById('view-' + tabName).classList.remove('hidden-view');
+            document.getElementById('view-' + tabName).classList.add('fade-in');
+        }
+
+        // 处理文件选择
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('upload-placeholder').classList.add('hidden');
+                document.getElementById('file-info').classList.remove('hidden');
+                document.getElementById('file-name').innerText = file.name;
+                document.getElementById('file-size').innerText = '大小: ' + (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                
+                // 启用分析按钮
+                const btn = document.getElementById('btn-analyze');
+                btn.disabled = false;
+                btn.className = "w-full mt-6 py-3 rounded-full font-bold text-lg transition-all bg-green-600 hover:bg-green-700 text-white shadow-lg";
+            }
+        }
+
+        // 模拟分析过程
+        function startAnalysis() {
+            document.getElementById('upload-box').classList.add('hidden-view');
+            document.getElementById('progress-box').classList.remove('hidden-view');
+            
+            let progress = 0;
+            const circle = document.getElementById('progress-circle');
+            const circumference = 282.7; // 2 * pi * r (45)
+            
+            const analysisSteps = [
+                "正在提取人体骨骼关键点...",
+                "检测折返瞬间身体重心高度...",
+                "计算侧身角度与蹬地力度...",
+                "评估运动安全与轨迹...",
+                "生成综合诊断报告..."
+            ];
+            let stepIndex = 0;
+
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 5) + 2;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(showResult, 500);
+                }
+
+                // 更新进度环
+                const offset = circumference - (progress / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+                document.getElementById('progress-text').innerText = progress + '%';
+
+                // 更新文字状态
+                if (progress > 20) {
+                    document.getElementById('progress-title').innerText = "AI 动作捕捉分析中...";
+                    if (progress % 20 === 0 && stepIndex < analysisSteps.length - 1) {
+                        stepIndex++;
+                        document.getElementById('progress-desc').innerText = analysisSteps[stepIndex];
+                    }
+                }
+
+            }, 200);
+        }
+
+        // 显示模拟分析结果
+        function showResult() {
+            // 解锁结果标签
+            const resultTabBtn = document.getElementById('tab-result');
+            resultTabBtn.classList.remove('cursor-not-allowed', 'opacity-60', 'text-gray-400');
+            resultTabBtn.classList.add('text-gray-500');
+
+            // 模拟生成数据：随机优秀或良好
+            const isExcellent = Math.random() > 0.5;
+            const data = isExcellent ? {
+                grade: '优秀',
+                colorClass: 'text-green-600',
+                bgClass: 'bg-green-100',
+                borderClass: 'border-green-500',
+                scores: { pose: 95, speed: 92, safety: 98 },
+                comments: [
+                    "你很好地掌握了折返的动作方法，动作规范！",
+                    "折返瞬间重心降得很低，侧身动作非常标准。",
+                    "蹬地加速迅速，安全意识强，是合格的环保小卫士！"
+                ],
+                improvement: "继续保持！可以尝试缩短折返时间，提高接力回收挑战的难度。"
+            } : {
+                grade: '良好',
+                colorClass: 'text-blue-600',
+                bgClass: 'bg-blue-100',
+                borderClass: 'border-blue-500',
+                scores: { pose: 75, speed: 85, safety: 90 },
+                comments: [
+                    "积极参与环保接力，奔跑速度很快，表现不错！",
+                    "折返动作基本准确，但转身瞬间身体重心略微偏高。",
+                    "有轻微减速制动现象，影响了起跑的爆发力。"
+                ],
+                improvement: "下次练习时，在靠近标志物时注意提前降低重心，身体侧倾会让你转得更快哦！"
+            };
+
+            // 渲染数据
+            document.getElementById('result-grade').innerText = data.grade;
+            const badge = document.getElementById('result-badge');
+            badge.className = `w-20 h-20 rounded-full flex items-center justify-center border-4 mr-6 ${data.bgClass} ${data.borderClass}`;
+            document.getElementById('result-grade').className = `text-2xl font-black ${data.colorClass}`;
+
+            document.getElementById('score-pose').innerText = data.scores.pose;
+            document.getElementById('score-speed').innerText = data.scores.speed;
+            document.getElementById('score-safety').innerText = data.scores.safety;
+
+            // 延迟渲染进度条动画
+            setTimeout(() => {
+                document.getElementById('bar-pose').style.width = data.scores.pose + '%';
+                document.getElementById('bar-speed').style.width = data.scores.speed + '%';
+                document.getElementById('bar-safety').style.width = data.scores.safety + '%';
+            }, 100);
+
+            // 渲染评语
+            const ul = document.getElementById('comments-list');
+            ul.innerHTML = '';
+            data.comments.forEach(text => {
+                const li = document.createElement('li');
+                li.className = "flex items-start";
+                li.innerHTML = `<span class="text-green-500 mr-2 font-bold">•</span>${text}`;
+                ul.appendChild(li);
+            });
+            document.getElementById('improvement-text').innerText = data.improvement;
+
+            // 切换到结果视图
+            switchTab('result');
+        }
+
+        // 重新开始
+        function resetApp() {
+            // 重置表单
+            document.getElementById('video-upload').value = '';
+            document.getElementById('upload-placeholder').classList.remove('hidden');
+            document.getElementById('file-info').classList.add('hidden');
+            
+            // 重置按钮
+            const btn = document.getElementById('btn-analyze');
+            btn.disabled = true;
+            btn.className = "w-full mt-6 py-3 rounded-full font-bold text-lg transition-all bg-gray-200 text-gray-400 cursor-not-allowed";
+
+            // 重置进度区
+            document.getElementById('upload-box').classList.remove('hidden-view');
+            document.getElementById('progress-box').classList.add('hidden-view');
+            document.getElementById('progress-circle').style.strokeDashoffset = '282.7';
+            document.getElementById('progress-text').innerText = '0%';
+            document.getElementById('progress-title').innerText = '正在安全上传视频...';
+            document.getElementById('progress-desc').innerText = '请勿关闭页面';
+
+            // 锁定结果页签
+            const resultTabBtn = document.getElementById('tab-result');
+            resultTabBtn.className = "tab-btn flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 text-gray-400 opacity-60 cursor-not-allowed";
+            
+            // 进度条复位
+            document.getElementById('bar-pose').style.width = '0%';
+            document.getElementById('bar-speed').style.width = '0%';
+            document.getElementById('bar-safety').style.width = '0%';
+
+            switchTab('submit');
+        }
+    </script>
+</body>
+</html>
+
+```
